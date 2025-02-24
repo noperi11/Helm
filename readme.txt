@@ -20,3 +20,4 @@ TODO :
 -Konfigure MPU (Pake akselerometer x sama y)
 -Casing RASPI dan Kamera
 -Powerbank 5v/4A
+-
