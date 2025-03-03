@@ -21,3 +21,8 @@ TODO :
 -Casing RASPI dan Kamera
 -Powerbank 5v/4A
 -
+
+Note :
+ledbuz buat kamera
+buzzer biasa buat mpu
+multithread
