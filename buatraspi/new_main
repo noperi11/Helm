@@ -1,0 +1,57 @@
+import cv2
+import time
+from threading import Thread
+from gpiozero import LED, Buzzer
+from eye_detection import EyeDetector
+from mpu_sensor import HeadTilt
+from alerts import AlertDevice
+
+# Initialize devices
+alert = AlertDevice()
+
+# Initialize detector and sensors
+eye = EyeDetector()
+head = HeadTilt(threshold_deg=6)
+cap = cv2.VideoCapture(0)
+
+eye_closed_start = None
+eye_alerted = False
+
+try:
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        is_open, p, rect = eye.detect(frame)
+
+        # Override by MPU6050
+        if head.is_tilted():
+            alert.start_override()
+        else:
+            alert.stop_override()
+
+            # Eye detection logic
+            if not is_open:
+                if eye_closed_start is None:
+                    eye_closed_start = time.time()
+                elif not eye_alerted and time.time() - eye_closed_start >= 0.8:
+                    print("Eyes closed - Alert activated")
+                    alert.start_alert()  # This will trigger the complete alert sequence
+                    eye_alerted = True  # Prevent continuous alerts
+            else:
+                # Only reset these when eyes open
+                eye_closed_start = None
+                eye_alerted = False
+                # Note: We don't call stop_alert() here since we want the alert to complete
+
+        # Optional - display results
+        # color = (0,255,0) if is_open else (0,0,255)
+        # x1,y1,x2,y2 = rect
+        # cv2.rectangle(frame, (x1,y1),(x2,y2), color, 2)
+        # cv2.imshow('Smart Helm', frame)
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
+finally:
+    cap.release()
+    # cv2.destroyAllWindows()
