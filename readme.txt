@@ -14,13 +14,15 @@ ALAT :
 -PB 5v/5a
 
 Progress :
--Kalo mata ketutup buzzer udah nyala,tinggal implement mpu sama LED
+-Kalo mata ketutup buzzer udah nyala,tinggal implement mpu sama LED (slesai)
 
 TODO :
--Konfigure MPU (Pake akselerometer x sama y)
--Casing RASPI dan Kamera
--Powerbank 5v/4A
--
+-rapihin penulisan skripsi
+-bikin vidio buat alat
+-bikin poster
+-bikin casing untuk powerbank
+-bikin manual book
+-bikin rab
 
 Note :
 ledbuz buat kamera
